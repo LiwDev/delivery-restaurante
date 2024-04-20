@@ -3,6 +3,7 @@ package br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.api.ClienteRequest;
 
 
+import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.api.ClienteResponse;
 import lombok.*;
 
 
@@ -16,8 +17,8 @@ import java.util.UUID;
 
 @Data
 @Builder
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Document(collection = "cliente")
 public class Cliente {
     @Id
@@ -44,5 +45,14 @@ public class Cliente {
         setTelefone(clienteRequest.getTelefone());
         setEmail(clienteRequest.getEmail());
         setEndereco(clienteRequest.getEndereco());
+    }
+
+    public Cliente(ClienteResponse clienteResponse) {
+        setIdCliente(clienteResponse.getIdCliente());
+        setNomeCompleto(clienteResponse.getNomeCompleto());
+        setCpf(clienteResponse.getCpf());
+        setTelefone(clienteResponse.getTelefone());
+        setEmail(clienteResponse.getEmail());
+        setEndereco(clienteResponse.getEndereco());
     }
 }

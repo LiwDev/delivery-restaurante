@@ -17,7 +17,7 @@ public class ClienteResponse {
     private Endereco endereco;
 
     public ClienteResponse(Cliente cliente) {
-        setIdCliente(getIdCliente());
+        setIdCliente(cliente.getIdCliente());
         setNomeCompleto(cliente.getNomeCompleto());
         setCpf(cliente.getCpf());
         setTelefone(cliente.getTelefone());

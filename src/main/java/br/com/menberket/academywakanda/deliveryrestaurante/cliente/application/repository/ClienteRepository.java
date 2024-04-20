@@ -13,4 +13,8 @@ public interface ClienteRepository {
     ClienteResponse buscaClientePorId(UUID idCliente);
 
     List<ClienteResponse> listaDeClientes();
+
+    ResponseEntity deletaClientePorId(UUID idCliente);
+
+    void deletaClientes();
 }

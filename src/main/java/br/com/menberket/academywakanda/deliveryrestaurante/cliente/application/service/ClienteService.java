@@ -2,15 +2,23 @@ package br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.
 
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.api.ClienteRequest;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.api.ClienteResponse;
+import br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain.Cliente;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ClienteService {
-    ResponseEntity criaNovoCliente(ClienteRequest clienteRequest);
+    ResponseEntity criaNovoCliente(Cliente cliente);
 
     ClienteResponse buscaClientePorId(UUID idCliente);
 
     List<ClienteResponse> listaDeClientes();
+
+
+    ResponseEntity deletaClientePorId(UUID idCliente);
+
+    Cliente atualizaCliente(UUID idCliente, ClienteRequest clienteRequest);
+
+    void deletaClientes();
 }

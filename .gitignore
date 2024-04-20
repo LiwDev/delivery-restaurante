@@ -3,10 +3,9 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-.mvn/
 mvnw
 mvnw.cmd
-.gitignore
+.mvn/**
 
 ### STS ###
 .apt_generated
@@ -22,10 +21,7 @@ mvnw.cmd
 *.iws
 *.iml
 *.ipr
-.mvn/
-mvnw
-mvnw.cmd
-.gitignore
+
 
 ### NetBeans ###
 /nbproject/private/

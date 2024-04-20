@@ -5,6 +5,7 @@ import br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain.Client
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class ClienteRestController implements ClienteApi {
     @Override
     public ResponseEntity criaNovoCliente(ClienteRequest clienteRequest) {
         log.info("[inicio] - ClienteRestController - criaNovoCliente ");
-       ResponseEntity response = clienteService.criaNovoCliente(clienteRequest);
+       ResponseEntity response = clienteService.criaNovoCliente(new Cliente(clienteRequest));
         log.info("[finaliza] - ClienteRestController - criaNovoCliente ");
         return response;
 
@@ -45,7 +46,28 @@ public class ClienteRestController implements ClienteApi {
     }
 
     @Override
-    public void deletaClientePorId(UUID idCliente) {
+    public ResponseEntity<ClienteResponse> atualizaCliente(UUID idCliente, ClienteRequest clienteRequest) {
+        log.info("[inicio] - ClienteRestController - atualizaCliente");
+        Cliente clienteResponseEntity= clienteService.atualizaCliente(idCliente,clienteRequest) ;
+        log.info("[finaliza] - ClienteRestController - atualizaCliente");
+        return ResponseEntity.ok(new ClienteResponse(clienteResponseEntity));
+    }
 
+    @Override
+    public ResponseEntity deletaClientePorId(UUID idCliente) {
+        log.info("[inicio] - ClienteRestController - deletaClientePorId");
+        ResponseEntity deleteResponse = clienteService.deletaClientePorId(idCliente);
+        log.info("[finaliza] - ClienteRestController - deletaClientePorId");
+        return deleteResponse;
+
+
+    }
+
+    @Override
+    public ResponseEntity deletaClientes() {
+        log.info("[inicio] - ClienteRestController - deletaClientes");
+        clienteService.deletaClientes();
+        log.info("[finaliza] - ClienteRestController - deletaClientes");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

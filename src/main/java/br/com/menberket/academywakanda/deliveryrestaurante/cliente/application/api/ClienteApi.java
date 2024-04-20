@@ -21,8 +21,12 @@ public interface ClienteApi {
     @GetMapping("/lista-Clientes")
     ResponseEntity<List<ClienteResponse>> listaDeClientes();
 
+    @PatchMapping("/atualiza-cliente/{idCliente}")
+    ResponseEntity<ClienteResponse> atualizaCliente(@PathVariable @Valid UUID idCliente, @RequestBody ClienteRequest clienteRequest);
     @DeleteMapping("/deleta-cliente-por-id/{idCliente}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    void deletaClientePorId(@Valid @PathVariable UUID idCliente);
+    ResponseEntity deletaClientePorId(@Valid @PathVariable UUID idCliente);
+
+    @DeleteMapping("/deleta-clientes")
+    ResponseEntity deletaClientes();
 
 }

@@ -1,5 +1,6 @@
 package br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain;
 
+import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.api.ClienteRequest;
 import lombok.*;
 
 
