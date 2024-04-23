@@ -2,7 +2,8 @@ package br.com.menberket.academywakanda.deliveryrestaurante.pedido.domain;
 
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.api.PedidoRequest;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
-import lombok.Data;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.datetime.standard.DateTimeFormatterFactory;
 import org.springframework.format.datetime.standard.DateTimeFormatterFactoryBean;
@@ -14,6 +15,10 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 import java.util.UUID;
 @Data
+@Builder
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Document(collection = "pedido")
 public class Pedido {
     private UUID idPedido;
     private UUID idCliente;

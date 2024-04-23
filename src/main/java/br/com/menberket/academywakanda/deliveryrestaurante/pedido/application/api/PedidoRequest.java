@@ -2,12 +2,12 @@ package br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.a
 
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.domain.*;
 import lombok.Getter;
+import lombok.Value;
 
 import java.util.UUID;
 @Getter
+@Value
 public class PedidoRequest {
-
-    private UUID idPedido;
     private UUID idCliente;
     private String nomeDoPrato;
     private Guarnicao guarnicao;
