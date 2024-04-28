@@ -16,9 +16,12 @@ public interface PedidoApi {
     @GetMapping("/busca-todos-pedidos")
     ResponseEntity<List<PedidoResponse>> buscaTodosPedidos();
     @GetMapping("/busca-pedido-por-id/{idPedido}")
-    ResponseEntity<PedidoResponse> buscaPedidoPorId(@Valid @PathVariable  UUID idPedido);
+    ResponseEntity<PedidoResponse> buscaPedidoPorId(@PathVariable @Valid UUID idPedido);
     @DeleteMapping("/deleta-pedido-por-id/{idPedido}")
-    ResponseEntity deletaPedidoPorId(@Valid  @PathVariable UUID idPedido);
+    ResponseEntity deletaPedidoPorId(@PathVariable @Valid UUID idPedido);
+
+    @PatchMapping("/atualiza-pedido/{idPedido}")
+    ResponseEntity<PedidoResponse> atualizaPedido(@PathVariable @Valid UUID idPedido, PedidoRequest pedidoRequest);
 
     @DeleteMapping("/deleta-todos-pedidos")
     ResponseEntity deletaTodosPedidos();

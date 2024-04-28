@@ -3,17 +3,25 @@ package br.com.menberket.academywakanda.deliveryrestaurante.pedido.infra;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.api.ClienteResponse;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.service.ClienteService;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain.Cliente;
+import br.com.menberket.academywakanda.deliveryrestaurante.handler.ApiException;
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.api.PedidoRequest;
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.api.PedidoResponse;
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.repository.PedidoRepository;
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.domain.Pedido;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Log4j2
 @Repository
@@ -21,6 +29,7 @@ import java.util.UUID;
 public class PedidoInfraRepository implements PedidoRepository {
     private final ClienteService clienteService;
     private final PedidoSpringMongoDBRepository pedidoSpringMongoDBRepository;
+    private final MongoTemplate mongoTemplate;
 
     @Override
     public void salva(PedidoRequest pedidoRequest) {
@@ -60,10 +69,33 @@ public class PedidoInfraRepository implements PedidoRepository {
     public PedidoResponse buscaPedidoPorId(UUID idPedido) {
         log.info("[inicia] - PedidoInfraRepository - buscaPedidoPorId ");
         Pedido pedido = pedidoSpringMongoDBRepository.findById(idPedido).get();
-
         PedidoResponse pedidoResponse = new PedidoResponse(pedido);
         log.info("[finaliza] - PedidoInfraRepository - buscaPedidoPorId ");
         return pedidoResponse;
+    }
+
+    @Override
+    public void atualizaPedido(UUID idPedido, PedidoRequest pedidoRequest) {
+        log.info("[inicia] - PedidoInfraRepository - atualizaPedido ");
+        try {
+            Query query = new Query();
+
+            query.addCriteria(Criteria.where("idPedido").is(idPedido));
+            Update update = new Update()
+                    .set("arroz", pedidoRequest.getArroz())
+                    .set("carne", pedidoRequest.getCarne())
+                    .set("bebida", pedidoRequest.getBebida())
+                    .set("feijao", pedidoRequest.getFeijao())
+                    .set("nomeDoPrato", pedidoRequest.getNomeDoPrato())
+                    .set("guarnicao", pedidoRequest.getGuarnicao())
+                    .set("preco", pedidoRequest.getPreco())
+                    .set("quantidade", pedidoRequest.getQuantidade());
+
+            mongoTemplate.updateFirst(query, update, Pedido.class);
+        } catch (NullPointerException nullPointerException) {
+            throw ApiException.build(HttpStatus.BAD_REQUEST, "ID do Pedido invalido", nullPointerException);
+        }
+        log.info("[finaliza] - PedidoInfraRepository - atualizaPedido ");
     }
 
     public List<PedidoResponse> convertListEmResponse(List<Pedido> pedido) {

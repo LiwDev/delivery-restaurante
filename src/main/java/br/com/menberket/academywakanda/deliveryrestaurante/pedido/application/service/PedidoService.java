@@ -16,4 +16,6 @@ public interface PedidoService {
     void deletaPedidoPorId(UUID idPedido);
 
     void deletaTodosPedidos();
+
+    void atualizaPedido(UUID idPedido, PedidoRequest pedidoRequest);
 }

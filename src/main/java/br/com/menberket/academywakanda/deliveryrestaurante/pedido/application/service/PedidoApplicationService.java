@@ -52,4 +52,11 @@ pedidoRepository.deletaPedidoPorId(idPedido);
 pedidoRepository.deletaTodosPedidos();
         log.info("[finaliza] - PedidoApplicationService - buscaPedidoPorId ");
     }
+
+    @Override
+    public void atualizaPedido(UUID idPedido, PedidoRequest pedidoRequest) {
+        log.info("[inicia] - PedidoApplicationService - buscaPedidoPorId ");
+        pedidoRepository.atualizaPedido(idPedido,pedidoRequest);
+        log.info("[inicia] - PedidoApplicationService - buscaPedidoPorId ");
+    }
 }

@@ -16,4 +16,6 @@ public interface PedidoRepository {
     void deletaPedidoPorId(UUID idPedido);
 
     PedidoResponse buscaPedidoPorId(UUID idPedido);
+
+    void atualizaPedido(UUID idPedido, PedidoRequest pedidoRequest);
 }

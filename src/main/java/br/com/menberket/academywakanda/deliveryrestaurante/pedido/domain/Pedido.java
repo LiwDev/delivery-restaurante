@@ -1,8 +1,11 @@
 package br.com.menberket.academywakanda.deliveryrestaurante.pedido.domain;
 
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.api.PedidoRequest;
+import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.api.PedidoResponse;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.datetime.standard.DateTimeFormatterFactory;
@@ -20,6 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Document(collection = "pedido")
 public class Pedido {
+    @Id
     private UUID idPedido;
     private UUID idCliente;
     private String nomeDoPrato;
@@ -44,5 +48,23 @@ public class Pedido {
         setQuantidade(pedidoRequest.getQuantidade());
         setPreco(pedidoRequest.getPreco());
         setDataHoraPedido(LocalDateTime.now());
+    }
+    public Pedido(PedidoResponse pedidoResponse) {
+        setIdPedido(UUID.randomUUID());
+        setIdCliente(pedidoResponse.getIdCliente());
+        setNomeDoPrato(pedidoResponse.getNomeDoPrato());
+        setGuarnicao(pedidoResponse.getGuarnicao());
+        setCarne(pedidoResponse.getCarne());
+        setBebida(pedidoResponse.getBebida());
+        setArroz(pedidoResponse.getArroz());
+        setFeijao(pedidoResponse.getFeijao());
+        setQuantidade(pedidoResponse.getQuantidade());
+        setPreco(pedidoResponse.getPreco());
+        setDataHoraPedido(LocalDateTime.now());
+    }
+
+    public void updatePedido(){
+
+
     }
 }

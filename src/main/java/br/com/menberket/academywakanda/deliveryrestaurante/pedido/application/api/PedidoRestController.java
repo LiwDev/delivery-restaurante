@@ -26,7 +26,7 @@ public class PedidoRestController implements PedidoApi {
         log.info("[finaliza] - PedidoRestController - criaNovoPedido]");
 
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
@@ -51,6 +51,16 @@ public class PedidoRestController implements PedidoApi {
         pedidoService.deletaPedidoPorId(idPedido);
         log.info("[finaliza] - PedidoRestController - deletaPedidoPorId");
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Override
+    public ResponseEntity<PedidoResponse> atualizaPedido(UUID idPedido, PedidoRequest pedidoRequest) {
+        log.info("[inicio] - PedidoRestController - atualizaPedido");
+            pedidoService.atualizaPedido(idPedido,pedidoRequest);
+        log.info("[finaliza] - PedidoRestController - atualizaPedido");
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
     }
 
     @Override
