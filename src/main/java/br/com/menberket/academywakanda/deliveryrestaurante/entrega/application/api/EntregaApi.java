@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -11,4 +12,7 @@ import java.util.UUID;
 public interface EntregaApi {
     @PostMapping("/cria-nova-entrega/{idCliente}")
 ResponseEntity criaNovaEntrega(@PathVariable @Valid  UUID idCliente);
+
+    @GetMapping("/busca-todas-entregas")
+    ResponseEntity<List<EntregaResponse>> buscaTodasEntregas();
 }

@@ -1,5 +1,6 @@
 package br.com.menberket.academywakanda.deliveryrestaurante.entrega.infra;
 
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.api.EntregaResponse;
 import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.repository.EntregaRepository;
 import br.com.menberket.academywakanda.deliveryrestaurante.entrega.domain.Entrega;
 import br.com.menberket.academywakanda.deliveryrestaurante.handler.ApiException;
@@ -9,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @Log4j2
@@ -26,6 +29,19 @@ public class EntregaInfraRepository implements EntregaRepository {
         }
         log.info("[finaliza] - EntregaInfraRepository - criarNovaEntrega");
 
+        return entrega;
+    }
+
+    @Override
+    public List<EntregaResponse> buscaTodasEntregas() {
+        log.info("[inicia] - EntregaInfraRepository - buscaTodasEntregas");
+        List<EntregaResponse> entrega;
+        try {
+            entrega  =  entregaSpringMongoDBRepository.findAll().stream().map(EntregaResponse::new).toList();
+        } catch (NullPointerException e) {
+            throw ApiException.build(HttpStatus.NOT_FOUND, "Não Ha Entregas Cadastradas", e);
+        }
+        log.info("[finaliza] - EntregaInfraRepository - buscaTodasEntregas");
         return entrega;
     }
 }

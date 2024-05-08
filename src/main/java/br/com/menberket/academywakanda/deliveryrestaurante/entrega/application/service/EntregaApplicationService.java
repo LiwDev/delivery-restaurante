@@ -2,6 +2,7 @@ package br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.
 
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.repository.ClienteRepository;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain.Cliente;
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.api.EntregaResponse;
 import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.repository.EntregaRepository;
 import br.com.menberket.academywakanda.deliveryrestaurante.entrega.domain.Entrega;
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.repository.PedidoRepository;
@@ -34,5 +35,15 @@ public class EntregaApplicationService implements  EntregaService{
        Entrega entrega= entregaRepository.criarNovaEntrega(new Entrega(cliente,pedidos));
         log.info("[finaliza] - EntregaApplicationService - criaNovaEntrega");
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(entrega);
+    }
+
+    @Override
+    public ResponseEntity<List<EntregaResponse>> buscaTodasEntregas() {
+        log.info("[inicia] - EntregaApplicationService - buscaTodasEntregas");
+        List<EntregaResponse> entregaResponse = entregaRepository.buscaTodasEntregas();
+        entregaResponse.forEach(System.out::println);
+        log.info("[finaliza] - EntregaApplicationService - buscaTodasEntregas");
+
+        return ResponseEntity.ok().body(entregaResponse);
     }
 }

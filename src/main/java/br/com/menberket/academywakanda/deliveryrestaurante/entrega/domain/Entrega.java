@@ -20,6 +20,6 @@ private List<Pedido> pedidos;
     public Entrega(Cliente cliente,List<Pedido> pedido) {
         this.idEntrega = UUID.randomUUID();
         this.cliente = cliente;
-        this.pedidos.addAll(pedido);
+        this.pedidos = pedido;
     }
 }

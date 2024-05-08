@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 @RestController
 @Log4j2
@@ -18,6 +19,14 @@ public class EntregaRestController implements EntregaApi{
         log.info("[inicia] - EntregaRestController - criaNovaEntrega ");
         ResponseEntity response = entregaService.criaNovaEntrega(idCliente);
         log.info("[finaliza] - EntregaRestController - criaNovaEntrega ");
+        return response;
+    }
+
+    @Override
+    public ResponseEntity<List<EntregaResponse>> buscaTodasEntregas() {
+        log.info("[inicia] - EntregaRestController - buscaTodasEntregas");
+        ResponseEntity<List<EntregaResponse>> response = entregaService.buscaTodasEntregas();
+        log.info("[finaliza] - EntregaRestController - buscaTodasEntregas ");
         return response;
     }
 }
