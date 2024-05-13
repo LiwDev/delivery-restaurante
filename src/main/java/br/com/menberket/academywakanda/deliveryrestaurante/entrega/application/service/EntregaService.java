@@ -10,4 +10,6 @@ public interface EntregaService {
     ResponseEntity criaNovaEntrega(UUID idCliente);
 
     ResponseEntity<List<EntregaResponse>> buscaTodasEntregas();
+
+    ResponseEntity<List<EntregaResponse>>  BuscaEntregaCliente(UUID idCliente);
 }

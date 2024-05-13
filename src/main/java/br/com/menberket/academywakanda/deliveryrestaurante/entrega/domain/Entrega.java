@@ -4,22 +4,26 @@ import br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain.Client
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.domain.Pedido;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 import java.util.UUID;
+
 @Builder
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter
+@Data
+@Document(collection = "entrega")
 public class Entrega {
     @Id
-private UUID idEntrega;
-private Cliente cliente;
-private List<Pedido> pedidos;
+    private UUID idEntrega;
+    private Cliente cliente;
+    private List<Pedido> pedidos;
 
-    public Entrega(Cliente cliente,List<Pedido> pedido) {
-        this.idEntrega = UUID.randomUUID();
-        this.cliente = cliente;
-        this.pedidos = pedido;
+    public Entrega(Cliente cliente, List<Pedido> pedido) {
+        setIdEntrega(UUID.randomUUID());
+        setCliente(cliente);
+        setPedidos(pedido);
     }
+
 }

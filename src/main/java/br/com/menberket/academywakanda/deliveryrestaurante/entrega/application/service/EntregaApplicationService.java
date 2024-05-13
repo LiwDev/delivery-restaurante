@@ -6,6 +6,7 @@ import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.a
 import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.repository.EntregaRepository;
 import br.com.menberket.academywakanda.deliveryrestaurante.entrega.domain.Entrega;
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.repository.PedidoRepository;
+import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.service.PedidoService;
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.domain.Pedido;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,21 +19,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class EntregaApplicationService implements  EntregaService{
+public class EntregaApplicationService implements EntregaService {
     private final EntregaRepository entregaRepository;
     private final ClienteRepository clienteRepository;
-    private final MongoTemplate mongoTemplate;
+    private final PedidoService pedidoService;
+
+
     @Override
     public ResponseEntity criaNovaEntrega(UUID idCliente) {
         log.info("[inicia] - EntregaApplicationService - criaNovaEntrega");
-       Cliente cliente = new Cliente(clienteRepository.buscaClientePorId(idCliente));
-        Query query = new Query();
-        query.addCriteria(Criteria.where("idCliente").is(idCliente));
-        List<Pedido> pedidos =  mongoTemplate.find(query,Pedido.class);
-       Entrega entrega= entregaRepository.criarNovaEntrega(new Entrega(cliente,pedidos));
+        Cliente cliente = new Cliente(clienteRepository.buscaClientePorId(idCliente));
+        Entrega entrega = entregaRepository.criarNovaEntrega(new Entrega(cliente, pedidoService.buscaPedidoPorCliente(idCliente)));
         log.info("[finaliza] - EntregaApplicationService - criaNovaEntrega");
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(entrega);
     }
@@ -41,9 +42,19 @@ public class EntregaApplicationService implements  EntregaService{
     public ResponseEntity<List<EntregaResponse>> buscaTodasEntregas() {
         log.info("[inicia] - EntregaApplicationService - buscaTodasEntregas");
         List<EntregaResponse> entregaResponse = entregaRepository.buscaTodasEntregas();
-        entregaResponse.forEach(System.out::println);
         log.info("[finaliza] - EntregaApplicationService - buscaTodasEntregas");
 
         return ResponseEntity.ok().body(entregaResponse);
     }
+
+    @Override
+    public ResponseEntity<List<EntregaResponse>> BuscaEntregaCliente(UUID idCliente) {
+        log.info("[inicia] - BuscaEntregaCliente - BuscaEntregaCliente ");
+        List<EntregaResponse> entregaResponse = entregaRepository.BuscaEntregaCliente(idCliente);
+        ;
+        log.info("[finaliza] - BuscaEntregaCliente - BuscaEntregaCliente");
+        return ResponseEntity.ok().body(entregaResponse);
+    }
+
+
 }

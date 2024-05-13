@@ -29,4 +29,12 @@ public class EntregaRestController implements EntregaApi{
         log.info("[finaliza] - EntregaRestController - buscaTodasEntregas ");
         return response;
     }
+
+    @Override
+    public ResponseEntity<List<EntregaResponse>> BuscaEntregaCliente(UUID idCliente) {
+        log.info("[inicia]- EntregaRestController - BuscaEntregaCliente ");
+        ResponseEntity<List<EntregaResponse>> response = entregaService.BuscaEntregaCliente(idCliente);
+        log.info("[finaliza]- EntregaRestController - BuscaEntregaCliente ");
+        return response;
+    }
 }

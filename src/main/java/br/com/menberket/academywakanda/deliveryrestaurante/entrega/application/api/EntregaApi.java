@@ -15,4 +15,6 @@ ResponseEntity criaNovaEntrega(@PathVariable @Valid  UUID idCliente);
 
     @GetMapping("/busca-todas-entregas")
     ResponseEntity<List<EntregaResponse>> buscaTodasEntregas();
+    @GetMapping("/busca-entrega-por-cliente/{idCliente}")
+    ResponseEntity<List<EntregaResponse>> BuscaEntregaCliente(@PathVariable @Valid UUID idCliente);
 }

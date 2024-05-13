@@ -19,4 +19,8 @@ public class EntregaResponse {
         this.cliente = entrega.getCliente();
         this.pedidos = entrega.getPedidos();
     }
+
+    public EntregaResponse(List<Entrega> entregas) {
+        entregas.forEach(EntregaResponse::new);
+    }
 }
