@@ -1,6 +1,8 @@
 package br.com.menberket.academywakanda.deliveryrestaurante.entrega.domain;
 
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain.Cliente;
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.api.EntregaRequest;
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.api.EntregaResponse;
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.domain.Pedido;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -25,5 +27,11 @@ public class Entrega {
         setCliente(cliente);
         setPedidos(pedido);
     }
+    public Entrega(EntregaResponse entregaResponse) {
+        setIdEntrega(entregaResponse.getIdEntrega());
+        setCliente(entregaResponse.getCliente());
+        setPedidos(entregaResponse.getPedidos());
+    }
+
 
 }

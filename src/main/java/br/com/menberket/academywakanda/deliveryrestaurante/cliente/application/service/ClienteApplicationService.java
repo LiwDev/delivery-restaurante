@@ -55,20 +55,28 @@ public class ClienteApplicationService implements ClienteService {
     }
 
     @Override
-    public Cliente atualizaCliente(UUID idCliente, ClienteRequest clienteRequest) {
+    public void atualizaCliente(UUID idCliente, ClienteRequest clienteRequest) {
         log.info("[inicio] - ClienteApplicationService - atualizaCliente");
-        ClienteResponse clienteResponse = buscaClientePorId(idCliente);
-        Cliente cliente = editaCliente(clienteResponse, clienteRequest);
-        clienteRepository.salva(cliente);
+
+      clienteRepository.atualizaCliente(idCliente,clienteRequest);
         log.info("[finaliza] - ClienteApplicationService - atualizaCliente");
-        return cliente;
+
     }
 
     @Override
     public void deletaClientes() {
         log.info("[inicio] - ClienteApplicationService - deletaClientes");
         clienteRepository.deletaClientes();
-        log.info("[inicio] - ClienteApplicationService - deletaClientes");
+        log.info("[finaliza] - ClienteApplicationService - deletaClientes");
+    }
+
+    @Override
+    public List<ClienteResponse> mudaOrdemCliente(UUID idCliente, int linha) {
+        log.info("[inicio] - ClienteApplicationService - mudaOrdemCliente");
+        List<ClienteResponse> clienteResponse = clienteRepository.mudaOrdemCliente(idCliente,linha);
+        log.info("[finaliza] - ClienteApplicationService - mudaOrdemCliente");
+
+        return clienteResponse;
     }
 
     private Cliente editaCliente(ClienteResponse clienteResponse, ClienteRequest clienteRequest) {

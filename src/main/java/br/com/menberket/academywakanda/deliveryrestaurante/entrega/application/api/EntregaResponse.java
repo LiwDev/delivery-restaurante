@@ -23,4 +23,8 @@ public class EntregaResponse {
     public EntregaResponse(List<Entrega> entregas) {
         entregas.forEach(EntregaResponse::new);
     }
+    public EntregaResponse(EntregaRequest entregaRequest) {
+        this.cliente = entregaRequest.getCliente();
+        this.pedidos = entregaRequest.getPedidos();
+    }
 }

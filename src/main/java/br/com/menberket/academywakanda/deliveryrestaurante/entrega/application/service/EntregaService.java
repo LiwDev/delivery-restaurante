@@ -1,5 +1,6 @@
 package br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.service;
 
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.api.EntregaRequest;
 import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.api.EntregaResponse;
 import org.springframework.http.ResponseEntity;
 
@@ -12,4 +13,6 @@ public interface EntregaService {
     ResponseEntity<List<EntregaResponse>> buscaTodasEntregas();
 
     ResponseEntity<List<EntregaResponse>>  BuscaEntregaCliente(UUID idCliente);
+
+    ResponseEntity atualizaEntrega(UUID idCliente, EntregaRequest entregaRequest);
 }

@@ -29,4 +29,8 @@ public interface ClienteApi {
     @DeleteMapping("/deleta-clientes")
     ResponseEntity deletaClientes();
 
+    @PatchMapping("/muda-ordem-cliente/{idCliente}/{linha}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    List<ClienteResponse> mudaOrdemCliente(@PathVariable @Valid UUID idCliente, @PathVariable @Valid int linha);
+
 }

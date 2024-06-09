@@ -3,6 +3,11 @@ package br.com.menberket.academywakanda.deliveryrestaurante.pedido.infra;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.api.ClienteResponse;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.service.ClienteService;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain.Cliente;
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.api.EntregaResponse;
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.repository.EntregaRepository;
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.service.EntregaApplicationService;
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.domain.Entrega;
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.infra.EntregaInfraRepository;
 import br.com.menberket.academywakanda.deliveryrestaurante.handler.ApiException;
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.api.PedidoRequest;
 import br.com.menberket.academywakanda.deliveryrestaurante.pedido.application.api.PedidoResponse;
@@ -21,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 @Log4j2
@@ -68,7 +74,7 @@ public class PedidoInfraRepository implements PedidoRepository {
     @Override
     public PedidoResponse buscaPedidoPorId(UUID idPedido) {
         log.info("[inicia] - PedidoInfraRepository - buscaPedidoPorId ");
-        Pedido pedido = pedidoSpringMongoDBRepository.findById(idPedido).get();
+        Pedido pedido = pedidoSpringMongoDBRepository.findById(idPedido).orElseThrow(()-> ApiException.build(HttpStatus.BAD_REQUEST, "ID do Pedido invalido"));
         PedidoResponse pedidoResponse = new PedidoResponse(pedido);
         log.info("[finaliza] - PedidoInfraRepository - buscaPedidoPorId ");
         return pedidoResponse;
@@ -77,6 +83,7 @@ public class PedidoInfraRepository implements PedidoRepository {
     @Override
     public void atualizaPedido(UUID idPedido, PedidoRequest pedidoRequest) {
         log.info("[inicia] - PedidoInfraRepository - atualizaPedido ");
+        System.out.println("idPedido = " + idPedido + ", pedidoRequest = " + pedidoRequest.getArroz());
         try {
             Query query = new Query();
 
@@ -90,8 +97,9 @@ public class PedidoInfraRepository implements PedidoRepository {
                     .set("guarnicao", pedidoRequest.getGuarnicao())
                     .set("preco", pedidoRequest.getPreco())
                     .set("quantidade", pedidoRequest.getQuantidade());
-
+                    atualizaPedidoDaEntrega(idPedido,update);
             mongoTemplate.updateFirst(query, update, Pedido.class);
+
         } catch (NullPointerException nullPointerException) {
             throw ApiException.build(HttpStatus.BAD_REQUEST, "ID do Pedido invalido", nullPointerException);
         }
@@ -107,4 +115,22 @@ public class PedidoInfraRepository implements PedidoRepository {
         log.info("[finaliza] - ClienteInfraRepository - convertListEmResponse");
         return pedidoResponse;
     }
+
+    public Pedido buscaPedidoPorIdCliente(UUID idCliente){
+        log.info("[inicio] - ClienteInfraRepository - buscaPedidoPorIdCliente");
+        Query query = new Query();
+        query.addCriteria(Criteria.where("idCliente").is(idCliente));
+        List<Pedido> pedido = mongoTemplate.find(query, Pedido.class);
+        System.out.println("idCliente = " + pedido.get(0).getIdPedido());
+        log.info("[inicio] - ClienteInfraRepository - buscaPedidoPorIdCliente");
+        return  pedido.get(0);
+    }
+
+    public  void atualizaPedidoDaEntrega(UUID idPedido ,Update update){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("pedidos._id").is(idPedido));
+        mongoTemplate.updateFirst(query, update, Entrega.class);
+    }
+
+
 }
