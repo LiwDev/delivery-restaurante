@@ -18,7 +18,9 @@ public interface ClienteService {
 
     ResponseEntity deletaClientePorId(UUID idCliente);
 
-    Cliente atualizaCliente(UUID idCliente, ClienteRequest clienteRequest);
+    void atualizaCliente(UUID idCliente, ClienteRequest clienteRequest);
 
     void deletaClientes();
+
+    List<ClienteResponse> mudaOrdemCliente(UUID idCliente, int linha);
 }

@@ -37,4 +37,12 @@ public class EntregaRestController implements EntregaApi{
         log.info("[finaliza]- EntregaRestController - BuscaEntregaCliente ");
         return response;
     }
+
+    @Override
+    public ResponseEntity atualizaEntrega(UUID idCliente, EntregaRequest entregaRequest) {
+        log.info("[inicia]- EntregaRestController - atualizaEntrega ");
+        ResponseEntity response = entregaService.atualizaEntrega(idCliente,entregaRequest);
+        log.info("[inicia]- EntregaRestController - atualizaEntrega ");
+        return null;
+    }
 }

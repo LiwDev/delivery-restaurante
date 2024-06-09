@@ -2,6 +2,7 @@ package br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.
 
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.service.ClienteService;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain.Cliente;
+import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +49,9 @@ public class ClienteRestController implements ClienteApi {
     @Override
     public ResponseEntity<ClienteResponse> atualizaCliente(UUID idCliente, ClienteRequest clienteRequest) {
         log.info("[inicio] - ClienteRestController - atualizaCliente");
-        Cliente clienteResponseEntity= clienteService.atualizaCliente(idCliente,clienteRequest) ;
+       clienteService.atualizaCliente(idCliente,clienteRequest) ;
         log.info("[finaliza] - ClienteRestController - atualizaCliente");
-        return ResponseEntity.ok(new ClienteResponse(clienteResponseEntity));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
@@ -69,5 +70,14 @@ public class ClienteRestController implements ClienteApi {
         clienteService.deletaClientes();
         log.info("[finaliza] - ClienteRestController - deletaClientes");
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Override
+    public List<ClienteResponse> mudaOrdemCliente(UUID idCliente, int linha) {
+        log.info("[inicio] - ClienteRestController - mudaOrdemCliente");
+        List<ClienteResponse> clienteResponse = clienteService.mudaOrdemCliente(idCliente,linha);
+        log.info("[finaliza] - ClienteRestController - mudaOrdemCliente");
+
+        return clienteResponse;
     }
 }

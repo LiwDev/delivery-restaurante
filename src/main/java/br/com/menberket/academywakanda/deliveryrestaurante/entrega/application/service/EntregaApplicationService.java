@@ -2,6 +2,7 @@ package br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.
 
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.repository.ClienteRepository;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain.Cliente;
+import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.api.EntregaRequest;
 import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.api.EntregaResponse;
 import br.com.menberket.academywakanda.deliveryrestaurante.entrega.application.repository.EntregaRepository;
 import br.com.menberket.academywakanda.deliveryrestaurante.entrega.domain.Entrega;
@@ -13,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -56,5 +58,12 @@ public class EntregaApplicationService implements EntregaService {
         return ResponseEntity.ok().body(entregaResponse);
     }
 
+    @Override
+    public ResponseEntity atualizaEntrega(UUID idCliente, EntregaRequest entregaRequest) {
+        log.info("[inicia] - BuscaEntregaCliente - atualizaEntrega ");
+        ResponseEntity response = entregaRepository.atualizaEntrega(idCliente,entregaRequest);
+        log.info("[inicia] - BuscaEntregaCliente - atualizaEntrega ");
+        return response;
+    }
 
 }

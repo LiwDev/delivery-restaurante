@@ -21,7 +21,7 @@ public interface PedidoApi {
     ResponseEntity deletaPedidoPorId(@PathVariable @Valid UUID idPedido);
 
     @PatchMapping("/atualiza-pedido/{idPedido}")
-    ResponseEntity<PedidoResponse> atualizaPedido(@PathVariable @Valid UUID idPedido, PedidoRequest pedidoRequest);
+    ResponseEntity<PedidoResponse> atualizaPedido(@PathVariable @Valid UUID idPedido,@RequestBody PedidoRequest pedidoRequest);
 
     @DeleteMapping("/deleta-todos-pedidos")
     ResponseEntity deletaTodosPedidos();

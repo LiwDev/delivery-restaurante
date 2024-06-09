@@ -1,5 +1,6 @@
 package br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.repository;
 
+import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.api.ClienteRequest;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.application.api.ClienteResponse;
 import br.com.menberket.academywakanda.deliveryrestaurante.cliente.domain.Cliente;
 import org.springframework.http.ResponseEntity;
@@ -17,4 +18,8 @@ public interface ClienteRepository {
     ResponseEntity deletaClientePorId(UUID idCliente);
 
     void deletaClientes();
+
+    void atualizaCliente(UUID idCliente, ClienteRequest clienteRequest);
+
+    List<ClienteResponse> mudaOrdemCliente(UUID idCliente, int linha);
 }
